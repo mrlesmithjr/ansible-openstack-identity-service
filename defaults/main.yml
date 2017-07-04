@@ -1,0 +1,24 @@
+---
+# defaults file for ansible-openstack-identity-service
+
+# Defines the default OpenStack admin user info
+# Generate password with:
+# openssl rand -hex 10
+openstack_identity_service_admin_info:
+  pass: []
+  user: 'admin'
+  admin_url: '{{ openstack_identity_service_keystone_endpoint_url }}:35357/v3/'
+  internal_url: '{{ openstack_identity_service_keystone_endpoint_url }}:5000/v3/'
+  public_url: '{{ openstack_identity_service_keystone_endpoint_url }}:5000/v3/'
+  region_id: 'RegionOne'
+
+# Defines Keystone DB info
+openstack_identity_service_keystone_db_info:
+  db: 'keystone'
+  pass: 'keystone'
+  host: 'localhost'
+  user: 'keystone'
+
+# Defines the default Keystone endpoint url
+# Do not append the port or api version
+openstack_identity_service_keystone_endpoint_url: 'http://{{ inventory_hostname }}'
