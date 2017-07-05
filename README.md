@@ -1,15 +1,17 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [ansible-openstack-identity-service](#ansible-openstack-identity-service)
-  - [Requirements](#requirements)
-  - [Role Variables](#role-variables)
-  - [Dependencies](#dependencies)
-    - [Ansible Roles](#ansible-roles)
-  - [Example Playbook](#example-playbook)
-  - [License](#license)
-  - [Author Information](#author-information)
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+**Table of Contents**  _generated with [DocToc](https://github.com/thlorenz/doctoc)_
+
+-   [ansible-openstack-identity-service](#ansible-openstack-identity-service)
+    -   [Requirements](#requirements)
+    -   [Role Variables](#role-variables)
+    -   [Dependencies](#dependencies)
+        -   [Ansible Roles](#ansible-roles)
+    -   [Example Playbook](#example-playbook)
+    -   [License](#license)
+    -   [Author Information](#author-information)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -31,12 +33,15 @@ None
 # Generate password with:
 # openssl rand -hex 10
 openstack_identity_service_admin_info:
-  pass: []
+  pass: '{{ openstack_identity_service_admin_pass }}'
   user: 'admin'
   admin_url: '{{ openstack_identity_service_keystone_endpoint_url }}:35357/v3/'
   internal_url: '{{ openstack_identity_service_keystone_endpoint_url }}:5000/v3/'
   public_url: '{{ openstack_identity_service_keystone_endpoint_url }}:5000/v3/'
   region_id: 'RegionOne'
+
+# Define admin pass
+openstack_identity_service_admin_pass: []
 
 # Defines Keystone DB info
 openstack_identity_service_keystone_db_info:
