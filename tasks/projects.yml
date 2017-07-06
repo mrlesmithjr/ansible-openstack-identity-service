@@ -10,3 +10,7 @@
     domain_id: "default"
     state: "present"
     enabled: true
+  when: >
+        not openstack_identity_service_ha or
+        (openstack_identity_service_ha and
+          inventory_hostname == openstack_identity_service_ha_master)

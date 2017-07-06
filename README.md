@@ -43,6 +43,12 @@ openstack_identity_service_admin_info:
 # Define admin pass
 openstack_identity_service_admin_pass: []
 
+# HA info
+## Define as true if using HA
+openstack_identity_service_ha: false
+## Define host which should be identified as HA master
+openstack_identity_service_ha_master: 'controller01'
+
 # Defines Keystone DB info
 openstack_identity_service_keystone_db_info:
   db: 'keystone'
@@ -53,6 +59,16 @@ openstack_identity_service_keystone_db_info:
 # Defines the default Keystone endpoint url
 # Do not append the port or api version
 openstack_identity_service_keystone_endpoint_url: 'http://{{ inventory_hostname }}'
+
+# Management IP Info
+openstack_identity_service_management_interface: 'enp0s8'
+openstack_identity_service_management_ip: "{{ hostvars[inventory_hostname]['ansible_'+openstack_compute_service_compute_management_interface]['ipv4']['address'] }}"
+
+# RabbitMQ Connection Info
+openstack_identity_service_rabbit_hosts:
+  - 127.0.0.1
+openstack_identity_service_rabbit_pass: 'openstack'
+openstack_identity_service_rabbit_user: 'openstack'
 ```
 
 ## Dependencies
