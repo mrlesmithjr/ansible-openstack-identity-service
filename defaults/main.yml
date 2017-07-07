@@ -18,6 +18,12 @@ openstack_identity_service_admin_pass: []
 # HA info
 ## Define as true if using HA
 openstack_identity_service_ha: false
+
+## Define IP addresses for each
+openstack_identity_service_ha_admin_bind_host: '{{ openstack_identity_service_management_ip }}'
+openstack_identity_service_ha_bind_host: '{{ openstack_identity_service_management_ip }}'
+openstack_identity_service_ha_public_bind_host: '{{ openstack_identity_service_management_ip }}'
+
 ## Define host which should be identified as HA master
 openstack_identity_service_ha_master: 'controller01'
 
@@ -41,3 +47,10 @@ openstack_identity_service_rabbit_hosts:
   - 127.0.0.1
 openstack_identity_service_rabbit_pass: 'openstack'
 openstack_identity_service_rabbit_user: 'openstack'
+
+# https://docs.openstack.org/ocata/config-reference/identity/token-provider.html
+#
+# uuid/fernet
+#
+# TODO: Implement fernet keys
+openstack_identity_service_token_provider: 'uuid'

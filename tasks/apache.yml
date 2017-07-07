@@ -10,4 +10,4 @@
     group: "root"
     mode: "u=rw,g=r,o=r"
   become: true
-  notify: restart apache2
+  notify: "restart apache2"

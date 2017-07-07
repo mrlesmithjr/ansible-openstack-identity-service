@@ -97,6 +97,14 @@ ansible-galaxy install -r requirements.yml
 
 [Example Playbook](./playbook.yml)
 
+## To-Do
+
+-   [ ] Implement Fernet keys
+-   [ ] Finish example playbook
+-   [ ] Provide usable variables for example playbook
+    -   [ ] vars file?
+    -   [ ] group_vars?
+
 ## License
 
 MIT
@@ -108,3 +116,6 @@ Larry Smith Jr.
 -   [@mrlesmithjr](https://www.twitter.com/mrlesmithjr)
 -   [EverythingShouldBeVirtual](http://www.everythingshouldbevirtual.com)
 -   mrlesmithjr [at] gmail.com
+    ail.com
+    .com
+        ail.com

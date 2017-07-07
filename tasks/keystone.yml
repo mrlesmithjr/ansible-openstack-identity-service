@@ -10,6 +10,7 @@
     group: "root"
     mode: "u=rw,g=r,o=r"
   become: true
+  notify: "restart apache2"
 
 # Check if Identity Service database has already been populated
 - name: keystone | Checking If Identity Service Database Has Already Been Populated
@@ -39,7 +40,8 @@
         not openstack_identity_service_ha or
         (openstack_identity_service_ha and
           inventory_hostname == openstack_identity_service_ha_master) and
-        _openstack_identity_service_keystone_db_populated['changed']
+        _openstack_identity_service_keystone_db_populated['changed'] and
+        openstack_identity_service_token_provider == "fernet"
 
 - name: keystone | Bootstrap the Identity service
   command: >

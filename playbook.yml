@@ -1,5 +1,6 @@
 ---
-- hosts: openstack
+- name: Install Base Services
+  hosts: openstack
   vars:
     etc_hosts_add_all_hosts: true
     etc_hosts_pri_dns_name: '{{ pri_domain_name }}'
@@ -8,12 +9,15 @@
   roles:
     - role: ansible-etc-hosts
     - role: ansible-config-interfaces
+    - role: ansible-timezone
     - role: ansible-chrony
     - role: ansible-openstack-openrc
     - role: ansible-openstack-base
   tasks:
 
-- hosts: openstack_controllers
+- name: Install Core Services
+  hosts: openstack_controllers
+  any_errors_fatal: true
   vars:
     memcached_config: true
     memcached_connections_in_limit: 1024
@@ -39,6 +43,7 @@
       thread_cache_size: 8
       thread_stack: 192K
       tmp_table_size: 16M
+    openstack_ha: false
     openstack_management_ip: "{{ hostvars[inventory_hostname]['ansible_ssh_host'] }}"
     rabbitmq_config_service: true
     rabbitmq_listeners:
@@ -51,9 +56,37 @@
         read_priv: '.*'
         write_priv: '.*'
         tags: 'administrator'
-
   roles:
     - role: ansible-mysql
+      when: not openstack_ha
+    - role: ansible-mariadb-galera-cluster
+      when: openstack_ha
     - role: ansible-rabbitmq
+      tags:
+        - 'openstack_rabbitmq'
     - role: ansible-memcached
+      tags:
+        - 'openstack_memcached'
+
+- name: Install HA Services
+  hosts: openstack_controllers
+  any_errors_fatal: true
+  vars:
+  roles:
+    - role: ansible-haproxy
+      when: openstack_ha
+      tags:
+        - 'openstack_ha'
+        - 'openstack_ha_haproxy'
+    - role: ansible-pacemaker
+      when: openstack_ha
+      tags:
+        - 'openstack_ha'
+        - 'openstack_ha_pacemaker'
+
+- name: Install OpenStack Controller Services
+  hosts: openstack_controllers
+  any_errors_fatal: true
+  vars:
+  roles:
     - role: ansible-openstack-identity-service

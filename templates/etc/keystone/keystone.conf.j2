@@ -1,6 +1,11 @@
 # {{ ansible_managed }}
 
 [DEFAULT]
+{% if openstack_identity_service_ha %}
+bind_host = {{ openstack_identity_service_ha_admin_bind_host }}
+public_bind_host = {{ openstack_identity_service_ha_bind_host }}
+admin_bind_host = {{ openstack_identity_service_ha_public_bind_host }}
+{% endif %}
 {% set _rabbit_user = openstack_identity_service_rabbit_user %}
 {% set _rabbit_pass = openstack_identity_service_rabbit_pass %}
 transport_url = rabbit://{% for host in openstack_identity_service_rabbit_hosts %}{{ _rabbit_user }}:{{ _rabbit_pass }}@{{ host }}{% if not loop.last %},{% endif %}{% endfor %}
@@ -13,6 +18,9 @@ transport_url = rabbit://{% for host in openstack_identity_service_rabbit_hosts 
 [cache]
 
 [catalog]
+{% if openstack_identity_service_ha %}
+driver = keystone.catalog.backends.sql.Catalog
+{% endif %}
 
 [cors]
 
@@ -40,6 +48,9 @@ connection = mysql+pymysql://{{ openstack_identity_service_keystone_db_info['use
 [healthcheck]
 
 [identity]
+{% if openstack_identity_service_ha %}
+driver = keystone.identity.backends.sql.Identity
+{% endif %}
 
 [identity_mapping]
 
@@ -88,7 +99,7 @@ connection = mysql+pymysql://{{ openstack_identity_service_keystone_db_info['use
 [signing]
 
 [token]
-provider = fernet
+provider = {{ openstack_identity_service_token_provider }}
 
 [tokenless_auth]
 
